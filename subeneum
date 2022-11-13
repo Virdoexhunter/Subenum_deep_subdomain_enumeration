@@ -14,7 +14,7 @@ function subenum(){
 	curl -s "https://securitytrails.com/list/apex_domain/$1" | grep -Po "((http|https):\/\/)?(([\w.-]*)\.([\w]*)\.([A-z]))\w+" | grep ".$1" | sort -u | tee -a domains.$1.txt
 	curl --silent https://sonar.omnisint.io/subdomains/$1 | grep -oE "[a-zA-Z0-9._-]+\.$1" | sort -u | tee -a domains.$1.txt
 	curl --silent -X POST https://synapsint.com/report.php -d "name=https%3A%2F%2F$1" | grep -oE "[a-zA-Z0-9._-]+\.$1" | sort -u | tee -a domains.$1.txt
-  curl -s "https://recon.dev/api/search?key=apikey&domain=$1" |jq -r '.[].rawDomains[]' | sed 's/ //g' | sort -u | tee -a domains.$1.txt
+ # #curl -s "https://recon.dev/api/search?key=apikey&domain=$1" |jq -r '.[].rawDomains[]' | sed 's/ //g' | sort -u | tee -a domains.$1.txt
  	
 	puredns bruteforce /root/wordlists/subs/altdns.txt $1 -r /root/wordlists/resolvers.txt | tee  resolved.txt
 	cat  * | sort -u | uniq  | tee $1_uniq
